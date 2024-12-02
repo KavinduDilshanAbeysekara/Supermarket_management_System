@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Supermarket.entity.Category;
+import com.example.Supermarket.entity.Product;
 import com.example.Supermarket.repository.CategoryRepository;
 
 @Service
@@ -74,23 +75,23 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new RuntimeException("No such category found within the database."));
     }
 
-    // @Override
-    // public String addProductsInCategory(String categoryId, List<Product> productList) {
-    //     Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
-    //     if (categoryOptional.isPresent()) {
-    //         Category category = categoryOptional.get();
-    //         if (productList.isEmpty()) {
-    //             throw new RuntimeException("The product list is empty.");
-    //         }
-    //         try {
-    //             category.getProducts().addAll(productList);
-    //             categoryRepository.save(category);
-    //             return "Successfully added products within the category.";
-    //         } catch (Exception e) {
-    //             throw new RuntimeException("Failed to add products: " + e.getMessage());
-    //         }
-    //     } else {
-    //         throw new RuntimeException("No such category found within the database.");
-    //     }
-    // }
+    @Override
+    public String addProductsInCategory(String categoryId, List<Product> productList) {
+        Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
+        if (categoryOptional.isPresent()) {
+            Category category = categoryOptional.get();
+            if (productList.isEmpty()) {
+                throw new RuntimeException("The product list is empty.");
+            }
+            try {
+                category.getProducts().addAll(productList);
+                categoryRepository.save(category);
+                return "Successfully added products within the category.";
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to add products: " + e.getMessage());
+            }
+        } else {
+            throw new RuntimeException("No such category found within the database.");
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.example.Supermarket.service;
 import java.util.List;
 
 import com.example.Supermarket.entity.Category;
+import com.example.Supermarket.entity.Product;
 
 public interface CategoryService {
 
@@ -11,6 +12,6 @@ public interface CategoryService {
  String deleteCategory(String CategoryId);
  Category updateCategory(Category category);
  Category getCategoryById(String categoryId);
-// String addProductsInCategory(String categoryId, List<Product> productList);   
+String addProductsInCategory(String categoryId, List<Product> productList);   
     
 } 

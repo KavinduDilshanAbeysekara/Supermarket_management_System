@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -29,14 +30,14 @@ public class Category {
 private String id = UUID.randomUUID().toString();
 private String name;
 
-// @OneToMany(targetEntity = Product.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//     @JoinColumn(name = "category_id", referencedColumnName = "id")
-//     private List<Product> products = new ArrayList<>();
+@OneToMany(targetEntity = Product.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private List<Product> products = new ArrayList<>();
 
-    // public Category(String id, String name) {
-    //     this.id = id;
-    //     this.name = name;
-    // }
+    public Category(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
 
     
