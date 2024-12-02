@@ -2,9 +2,11 @@ package com.example.Supermarket.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,19 +41,19 @@ public class User implements Serializable {
     private String address;
     private String phoneNo;
 
-    // @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    // @JoinColumn(name = "user_id", referencedColumnName = "id")
-    // private List<Order> orders = new ArrayList<>();
+    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Order> orders = new ArrayList<>();
 
-    // public User(Integer id, String firstName, String lastName, String email, int age, String password, String address, String phoneNo) {
-    //     this.id = id;
-    //     this.firstName = firstName;
-    //     this.lastName = lastName;
-    //     this.email = email;
-    //     this.age = age;
-    //     this.password = password;
-    //     this.address = address;
-    //     this.phoneNo = phoneNo;
-    // }
+    public User(Integer id, String firstName, String lastName, String email, int age, String password, String address, String phoneNo) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.password = password;
+        this.address = address;
+        this.phoneNo = phoneNo;
+    }
 
 }
