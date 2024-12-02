@@ -11,7 +11,7 @@ import com.example.Supermarket.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
-     private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -30,42 +30,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(Integer userId) {
-        User user = userRepository.getById(userId);
-        if (user != null) {
-            user.setOrders(null);
-            userRepository.delete(user);
-        } else {
-            throw new IllegalArgumentException("No such user found against this ID");
-        }
-    }
 
-    @Override
-    public void deleteUser(User user) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("No such user found against this ID"));
+
+        user.setOrders(null);
         userRepository.delete(user);
     }
 
     @Override
-    public User updateUser(User updatedUser) {
-        User existingUser = userRepository.getById(updatedUser.getId());
-        if (existingUser != null) {
-            return userRepository.save(updatedUser);
+    public void deleteUser(User user) {
+        if (userRepository.existsById(user.getId())) {
+            userRepository.delete(user);
         } else {
-            throw new IllegalArgumentException("No such user found against this ID");
+            throw new IllegalArgumentException("No such user found in the database");
         }
     }
 
     @Override
-    public User getUserById(Integer userId) {
-        return userRepository.findById(userId).orElseThrow(() -> 
-                new IllegalArgumentException("No such user found within the database"));
+    public User updateUser(User updatedUser) {
+
+        userRepository.findById(updatedUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("No such user found against this ID"));
+
+        return userRepository.save(updatedUser);
     }
 
-    
+    @Override
+    public User getUserById(Integer userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("No such user found within the database"));
+    }
 
     @Override
     public List<Order> getOrdersByUserId(Integer userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> 
-                new IllegalArgumentException("No such user found within the database"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("No such user found within the database"));
         List<Order> orders = user.getOrders();
         if (orders.isEmpty()) {
             throw new IllegalStateException("No orders made yet by this user");
